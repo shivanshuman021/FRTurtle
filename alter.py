@@ -19,17 +19,23 @@ testData = {}
 for i in range(len(train)):
 	k = train.iloc[i,1].split()
 	k = k[1:]
-	k[-1] = k[-1][:2]
+	x = k[-1]
+	x = x[:-2]
+	k[-1] = float(x)
 	database[train.iloc[i,0]] = np.array(k,dtype='float64')
+	print(k[-1])
 
 for i in range(len(test)):
 	k = test.iloc[i,1].split()
 	k = k[1:]
-	if len(k)==129:
+	if k[-1]==']]':
 		k = k[:-1]
 	else:
-		k[-1]=k[-1][:-2]
+		x = k[-1]
+		x = x[:-2]
+		k[-1] = float(x)
 	testData[test.iloc[i,0]] = np.array(k,dtype='float64')
+	print(k[-1])
 
 
 
@@ -56,10 +62,10 @@ def writer(n):
 
 def who_is_it(it, database,testData):    
     encoding = testData[it]
-    print(encoding)
+    #print(encoding)
     min_dist = 100
     for (name, db_enc) in database.items():
-        print(len(db_enc))
+        #print(len(db_enc))
         # Compute L2 distance between the target "encoding" and the current db_enc from the database. (≈ 1 line)
         dist = np.linalg.norm(encoding - db_enc)
 
